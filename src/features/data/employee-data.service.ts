@@ -124,6 +124,8 @@ export class EmployeeDataService {
   update(id: number, entity: EmployeeEntity): EmployeeEntity | undefined {
     const currentDataIdx = this.getEmployeeIdxById(id);
     if (currentDataIdx < 0) return undefined;
+    if (this.employees[currentDataIdx].employeeId !== entity.employeeId)
+      throw new Error("Unable to update employee id");
     Object.assign(this.employees[currentDataIdx], { ...entity });
     return entity;
   }
@@ -135,5 +137,10 @@ export class EmployeeDataService {
 
   protected getEmployeeIdxById(id: number): number {
     return this.employees.findIndex((data) => data.employeeId === id);
+  }
+
+  // manager
+  getOneManager(id: number): EmployeeEntity | undefined {
+    return this.employees.find((data) => data.managerId === id);
   }
 }
