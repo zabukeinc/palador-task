@@ -1,6 +1,5 @@
 import { EmployeeDataService } from "../../data/employee-data.service";
 import { EmployeeEntity } from "../entities/employee.entity";
-import { isEmployeeExist } from "./validators/is-employee-exist.validator";
 import { isValidPayload } from "./validators/is-valid-payload.validator";
 
 export class CreateEmployeeManager {
@@ -11,8 +10,19 @@ export class CreateEmployeeManager {
 
   execute(): EmployeeEntity {
     isValidPayload(this.entity);
-    isEmployeeExist(this.service, this.entity.employeeId);
+
+    if (this.isEmployeeExist()) throw new Error("Employee already exist");
+
+    if (!this.isManagerExist()) throw new Error("Manager does not exist");
 
     return this.service.create(this.entity);
+  }
+
+  protected isEmployeeExist(): boolean {
+    return !!this.service.getOne(this.entity.employeeId);
+  }
+
+  protected isManagerExist(): boolean {
+    return !!this.service.getOneManager(this.entity.managerId!);
   }
 }
