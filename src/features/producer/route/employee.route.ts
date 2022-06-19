@@ -61,7 +61,6 @@ router.put(
   async (req: express.Request, res: express.Response) => {
     try {
       const data = controller.update(parseInt(req.params.id), req.body);
-      console.log(data, "apanehhh");
       return res.json(data);
     } catch (err) {
       if (err instanceof Error) res.status(400).json({ message: err.message });
