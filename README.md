@@ -12,12 +12,12 @@
    ```
 
 ### Running Production
-    ```sh
+    ```
     npm build
     npm run start
     ```
 
 ### Running Development
-    ```sh
+    ```
     npm run dev
     ```
